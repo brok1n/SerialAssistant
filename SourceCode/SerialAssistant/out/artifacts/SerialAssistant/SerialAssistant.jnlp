@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="SerialAssistant.jnlp">
+  <information>
+    <title>串口助手-brok1n</title>
+    <vendor>brok1n</vendor>
+    <description>串口助手 by brok1n 2017/02/16</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="SerialAssistant.jar" size="410426" download="eager" />
+  </resources>
+<security>
+  <all-permissions/>
+</security>
+  <jfx:javafx-desc  width="600" height="400" main-class="com.brok1n.java.fx.serialassistant.Main"  name="SerialAssistant" />
+  <update check="background"/>
+</jnlp>

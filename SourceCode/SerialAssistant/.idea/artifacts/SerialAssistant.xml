@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="SerialAssistant">
+    <output-path>$PROJECT_DIR$/out/artifacts/SerialAssistant</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="alias" value="" />
+        <option name="appClass" value="com.brok1n.java.fx.serialassistant.Main" />
+        <option name="convertCss2Bin" value="true" />
+        <option name="description" value="串口助手&#10;by brok1n&#10;2017/02/16" />
+        <option name="enabledSigning" value="true" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="keystore" value="" />
+        <option name="title" value="串口助手-brok1n" />
+        <option name="vendor" value="brok1n" />
+        <option name="version" value="1.0.0" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="SerialAssistant.jar">
+        <element id="module-output" name="SerialAssistant" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="loadingLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bg" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brok1n.java.fx.serialassistant.view.LoadingController">
+   <children>
+      <Label alignment="CENTER" layoutX="150.0" layoutY="50.0" prefHeight="60.0" prefWidth="300.0" text="串口助手-brok1n">
+         <font>
+            <Font size="36.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="350.0" layoutY="130.0" prefHeight="29.0" prefWidth="88.0" text="V1.0.0" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="loadingStatusLabel" alignment="CENTER_RIGHT" layoutY="220.0" prefHeight="40.0" prefWidth="600.0" styleClass="statusLabel" text="LOADING...">
+         <padding>
+            <Insets right="30.0" />
+         </padding>
+      </Label>
+      <Label fx:id="osNameLabel" alignment="CENTER" layoutY="280.0" prefHeight="25.0" prefWidth="600.0" styleClass="statusLabel" text="OS Name">
+         <padding>
+            <Insets right="30.0" />
+         </padding></Label>
+      <Label fx:id="osVersionLabel" alignment="CENTER" layoutY="310.0" prefHeight="25.0" prefWidth="600.0" styleClass="statusLabel" text="OS Version">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets right="30.0" />
+         </padding></Label>
+      <Label fx:id="osArchLabel" alignment="CENTER" layoutY="340.0" prefHeight="25.0" prefWidth="600.0" styleClass="statusLabel" text="OS Arch">
+         <padding>
+            <Insets right="30.0" />
+         </padding></Label>
+   </children>
+</Pane>

@@ -648,57 +648,8 @@ public class HomeController implements SerialPortEventListener {
                 break;
             case SerialPortEvent.DATA_AVAILABLE://获取到串口返回信息
 
-                receivedData();
-
-                byte[] readBuffer = new byte[1024];
-                readStr= showReceivedTime ? "[" + sd.format(new Date()) + "]" : "";
-                try {
-                    while (currentSerialInputStream.available() > 0)
-                    {
-                        int len = currentSerialInputStream.read(readBuffer);
-                        byteBuffer.put(readBuffer, 0, len);
-                        if( showHexCbox.isSelected() )
-                        {
-                            readStr += Butils.bytes2HexString( readBuffer, 0, len );
-                        }
-                        else
-                        {
-                            readStr += new String(readBuffer);
-                        }
-                        serialReceivedDataCount += len;
-                    }
-
-                    Butils.log("接收到端口返回数据(长度为"+readStr.length()+")："+readStr);
-                    Butils.log( Thread.currentThread().getName() );
-
-                    Platform.runLater(new Runnable() {
-                     @Override
-                     public void run() {
-                         double d= dataTextArea.scrollTopProperty().getValue();
-                         if( showHexCbox.isSelected() )
-                         {
-                             dataTextArea.appendText( Butils.string2HexString(readStr) );
-                         }
-                         else
-                         {
-                             dataTextArea.appendText( readStr );
-                         }
-
-                         int point = dataTextArea.getCaretPosition();
-                         if( point > 4000 )
-                         {
-                             dataTextArea.setText( dataTextArea.getText().substring(point - 4000 ));
-                             //dataTextArea.selectPositionCaret( dataTextArea.getText().length());
-                             dataTextArea.positionCaret(dataTextArea.getText().length());
-                         }
-                         statusReceivedLabel.setText("接收:" + serialReceivedDataCount );
-                         Butils.log("scrollTop:" + d + "  receiveSize:" + dataTextArea.getText().length() + " point:" + dataTextArea.getCaretPosition());
-                     }
-                    });
-
-                 } catch (IOException e) {
-                     e.printStackTrace();
-                 }
+                int len = receivedData();
+                receivedOutput( byteBuffer, len );
 
                 break;
             default:
@@ -709,26 +660,57 @@ public class HomeController implements SerialPortEventListener {
     /**
      * 接收数据
      * */
-    private void receivedData()
+    private int receivedData()
     {
+        int len, count = 0;
         try {
-            int len = 0;
             while ( currentSerialInputStream.available() > 0 )
             {
                 len = currentSerialInputStream.read( tmpByteArr );
                 byteBuffer.put( tmpByteArr, 0, len );
+                count += len;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return count;
     }
 
     /**
      * 输出接收
      * */
-    private void receivedOutput(byte[] data )
+    private void receivedOutput( ByteBuffer data, int len )
     {
+        Butils.log("receivedOutput:" + data.array().length + "  len:" + len );
+        
+    }
 
+    public void aaa()
+    {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                double d= dataTextArea.scrollTopProperty().getValue();
+                if( showHexCbox.isSelected() )
+                {
+                    dataTextArea.appendText( Butils.string2HexString(readStr) );
+                }
+                else
+                {
+                    dataTextArea.appendText( readStr );
+                }
+
+                int point = dataTextArea.getCaretPosition();
+                if( point > 4000 )
+                {
+                    dataTextArea.setText( dataTextArea.getText().substring(point - 4000 ));
+                    //dataTextArea.selectPositionCaret( dataTextArea.getText().length());
+                    dataTextArea.positionCaret(dataTextArea.getText().length());
+                }
+                statusReceivedLabel.setText("接收:" + serialReceivedDataCount );
+                Butils.log("scrollTop:" + d + "  receiveSize:" + dataTextArea.getText().length() + " point:" + dataTextArea.getCaretPosition());
+            }
+        });
     }
 
 }

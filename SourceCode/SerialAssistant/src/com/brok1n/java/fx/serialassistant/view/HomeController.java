@@ -10,11 +10,10 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.channels.FileLock;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -148,9 +147,6 @@ public class HomeController implements SerialPortEventListener {
 
     //是否显示接收时间
     private boolean showReceivedTime = false;
-
-    //读取到的数据
-    public String readStr;
 
     /**
      * 预分配1M空间给byte缓存
@@ -340,7 +336,8 @@ public class HomeController implements SerialPortEventListener {
         stopBit  = getStopBit();
 
         //连接串口
-        if( connectSerial() )
+        int status = -1;
+        if( ( status = connectSerial() ) == 0 )
         {
             serialIsOpened = true;
 
@@ -361,6 +358,25 @@ public class HomeController implements SerialPortEventListener {
         else
         {
             closeSerial();
+            if( status == 3 )
+            {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setHeaderText(null);
+                alert.setContentText("串口被占用！");
+
+                alert.showAndWait();
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setHeaderText(null);
+                alert.setContentText("串口打开失败！");
+
+                alert.showAndWait();
+            }
+            Butils.log("打开串口失败！");
         }
 
     }
@@ -368,10 +384,10 @@ public class HomeController implements SerialPortEventListener {
     /**
      * 建立串口连接
      * */
-    public boolean connectSerial()
+    public int connectSerial()
     {
         //串口是否建立成功
-        boolean status = false;
+        int status = -1;
         try {
             //建立串口连接、设置参数、监听器
             currentSerialPort = (SerialPort) currentSerial.open(currentSerial.getName(), HomeController.CONNECT_SERIAL_TIMEOUT);
@@ -384,7 +400,7 @@ public class HomeController implements SerialPortEventListener {
             currentSerialInputStream = currentSerialPort.getInputStream();
             currentSerialOutputStream = currentSerialPort.getOutputStream();
 
-            status = true;
+            status = 0;
 
             Platform.runLater(new Runnable() {
                 @Override
@@ -397,17 +413,17 @@ public class HomeController implements SerialPortEventListener {
             });
 
         } catch (TooManyListenersException e) {
-            e.printStackTrace();
-            status =false;
+            Butils.log("TooMany:" + e.getMessage());
+            status =1;
         } catch (UnsupportedCommOperationException e) {
-            e.printStackTrace();
-            status = false;
+            Butils.log("Unsupport:" + e.getMessage());
+            status = 2;
         } catch (PortInUseException e) {
-            e.printStackTrace();
-            status = false;
+            Butils.log("PortInUse:" + e.getMessage());
+            status = 3;
         } catch (IOException e) {
-            e.printStackTrace();
-            status = false;
+            Butils.log("IO:" + e.getMessage());
+            status = 4;
         }
         return status;
     }
@@ -510,7 +526,19 @@ public class HomeController implements SerialPortEventListener {
     @FXML
     public void onClearTextAreaBtnClicked()
     {
-        dataTextArea.setText("");
+        if( receivedToFileCbox != null && receivedToFileCbox.isSelected() && receivedToFile != null )
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText(null);
+            alert.setContentText("接收转向至文件时，无法执行该操作。");
+
+            alert.showAndWait();
+        }
+        else
+        {
+            dataTextArea.setText("");
+        }
     }
 
     /**
@@ -536,15 +564,15 @@ public class HomeController implements SerialPortEventListener {
             receivedToFileCbox.setSelected(false);
             dataTextArea.setText("");
 
-            readStr = "";
             byteBuffer.clear();
 
             receivedToFile = null;
+            dataTextArea.setDisable(false);
             return ;
         }
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
+        fileChooser.setTitle("接收区显示内容另存为...");
         File file = fileChooser.showSaveDialog(AppDelegate.static_stage);
 
         if( file == null )
@@ -566,6 +594,9 @@ public class HomeController implements SerialPortEventListener {
             }
         }
 
+        //解除文件占用
+        unlockFile( file );
+
         if( !canCreate || !file.canRead() || !file.canWrite() )
         {
 
@@ -584,53 +615,43 @@ public class HomeController implements SerialPortEventListener {
         dataTextArea.clear();
         dataTextArea.setText("串口接收数据转向到文件：" + file.getAbsolutePath() );
 
-        readStr = "";
         byteBuffer.clear();
 
         receivedToFile = file;
+
+        dataTextArea.setDisable(true);
 
         Butils.log( "选择了:" + file.getAbsolutePath() );
 
     }
 
     /**
-     * 是否显示接收时间被点击
+     * 保存数据按钮被点击
      * */
     @FXML
-    public void onShowReceivedTimeCboxClicked()
+    public void onSaveDataBtnClicked()
     {
-        if( showReceivedCbox.isSelected() )
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("保存到...");
+        File file = fileChooser.showSaveDialog(AppDelegate.static_stage);
+
+        if( file == null )
         {
-            showReceivedTime = true;
+            receivedToFileCbox.setSelected(false);
+            return;
         }
-        else
-        {
-            showReceivedTime = false;
-        }
+
+        //解除文件占用
+        unlockFile( file );
+
+        //统一换行符
+        String data = dataTextArea.getText().replace("\r", "");
+        data = data.replace("\n", "\r\n");
+
+        //写入文件
+        writeToFile( data, file );
+
     }
-
-    /**
-     * 显示十六进制复选框被点击
-     * */
-    @FXML
-    public void onShowHexCboxClicked()
-    {
-        if( showHexCbox.isSelected() )
-        {
-            dataTextArea.setText( Butils.string2HexString( dataTextArea.getText() ) );
-            //dataTextArea.selectPositionCaret( dataTextArea.getText().length());
-            dataTextArea.positionCaret(dataTextArea.getText().length());
-        }
-        else
-        {
-            dataTextArea.setText( Butils.hexString2String( dataTextArea.getText() ) );
-            //dataTextArea.selectPositionCaret( dataTextArea.getText().length());
-            dataTextArea.positionCaret(dataTextArea.getText().length());
-        }
-    }
-
-
-
 
     @Override
     public void serialEvent(SerialPortEvent event) {
@@ -650,6 +671,7 @@ public class HomeController implements SerialPortEventListener {
 
                 int len = receivedData();
                 receivedOutput( byteBuffer, len );
+                byteBuffer.clear();
 
                 break;
             default:
@@ -682,24 +704,34 @@ public class HomeController implements SerialPortEventListener {
     private void receivedOutput( ByteBuffer data, int len )
     {
         Butils.log("receivedOutput:" + data.array().length + "  len:" + len );
-        
+
+        //处理暂停接收显示、16进制、是否显示接收时间
+        String result = prepareReceivedData( data, len );
+
+        //是打印到界面还是存到文件
+        if( receivedToFileCbox != null && receivedToFileCbox.isSelected() && receivedToFile != null )
+        {
+            writeToFile( result, receivedToFile );
+        }
+        else
+        {
+            writeToView( result );
+        }
+
+        //接收总数据增加
+        serialReceivedDataCount += len;
+
+        //刷新状态信息
+        flushStatus();
+
     }
 
-    public void aaa()
+    //刷新状态信息
+    private void flushStatus()
     {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                double d= dataTextArea.scrollTopProperty().getValue();
-                if( showHexCbox.isSelected() )
-                {
-                    dataTextArea.appendText( Butils.string2HexString(readStr) );
-                }
-                else
-                {
-                    dataTextArea.appendText( readStr );
-                }
-
                 int point = dataTextArea.getCaretPosition();
                 if( point > 4000 )
                 {
@@ -708,9 +740,83 @@ public class HomeController implements SerialPortEventListener {
                     dataTextArea.positionCaret(dataTextArea.getText().length());
                 }
                 statusReceivedLabel.setText("接收:" + serialReceivedDataCount );
-                Butils.log("scrollTop:" + d + "  receiveSize:" + dataTextArea.getText().length() + " point:" + dataTextArea.getCaretPosition());
             }
         });
+    }
+
+    //写入到视图中
+    private void writeToView( final String data )
+    {
+        if( dataTextArea != null )
+        {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    dataTextArea.appendText( data );
+                }
+            });
+        }
+    }
+
+    //写入文件
+    private void writeToFile( String data, File file )
+    {
+        try {
+            BufferedWriter writer = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( file, true )) );
+            writer.write(data);
+            writer.flush();
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //解除文件占用
+    private void unlockFile( File file )
+    {
+        try {
+            RandomAccessFile  raf  = new RandomAccessFile( file, "rw" );
+            FileLock fl = raf.getChannel().tryLock();
+            Thread.sleep(100);
+            fl.release();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //处理接收到的数据
+    private String prepareReceivedData( ByteBuffer data, int len )
+    {
+        String result = "";
+        //如果停止接收显示被选中 就不输出接收到的数据
+        if( stopShowReceivedDataCbox != null && stopShowReceivedDataCbox.isSelected() )
+        {
+            return result;
+        }
+
+        //是否以16进制格式显示
+        if( showHexCbox != null && showHexCbox.isSelected() )
+        {
+            result =  Butils.bytes2HexString(data.array(), 0, len);
+            String regex = "(.{2})";
+            result = result.replaceAll (regex, "$1 ");
+        }
+        else
+        {
+            result = new String( data.array(), 0, len);
+        }
+
+        //是否显示接收时间
+        if( showReceivedCbox != null && showReceivedCbox.isSelected() )
+        {
+            result = "\r\n[" + sd.format(new Date()) + "]" + result;
+        }
+
+        return result;
     }
 
 }

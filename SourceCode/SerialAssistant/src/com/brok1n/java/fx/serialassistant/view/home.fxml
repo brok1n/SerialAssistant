@@ -48,10 +48,10 @@
       <Circle fx:id="statusLed" fill="#ff212100" layoutX="23.0" layoutY="343.0" radius="14.0" stroke="#ff000000" strokeType="INSIDE" style="-fx-fill: #FF0000;" />
       <Line endX="600.0" layoutX="101.0" layoutY="371.0" startX="-100.0" stroke="#0000001d" />
       <CheckBox fx:id="receivedToFileCbox" layoutX="7.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#onReceivedToFileCboxClicked" text="接收转向文件" />
-      <CheckBox fx:id="showReceivedCbox" layoutX="7.0" layoutY="412.0" mnemonicParsing="false" onMouseClicked="#onShowReceivedTimeCboxClicked" text="显示接收时间" />
+      <CheckBox fx:id="showReceivedCbox" layoutX="7.0" layoutY="412.0" mnemonicParsing="false" text="显示接收时间" />
       <CheckBox fx:id="stopShowReceivedDataCbox" layoutX="7.0" layoutY="472.0" mnemonicParsing="false" text="暂停接收显示" />
-      <CheckBox fx:id="showHexCbox" layoutX="7.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#onShowHexCboxClicked" text="十六进制显示" />
-      <Button fx:id="saveReceivedDataBtn" layoutX="119.0" layoutY="380.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="102.0" text="保存数据" />
+      <CheckBox fx:id="showHexCbox" layoutX="7.0" layoutY="442.0" mnemonicParsing="false" text="十六进制显示" />
+      <Button fx:id="saveReceivedDataBtn" layoutX="119.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#onSaveDataBtnClicked" prefHeight="50.0" prefWidth="102.0" text="保存数据" />
       <Button layoutX="119.0" layoutY="439.0" mnemonicParsing="false" onMouseClicked="#onClearTextAreaBtnClicked" prefHeight="50.0" prefWidth="102.0" text="清除显示" />
       <TextArea layoutX="232.0" layoutY="375.0" prefHeight="59.0" prefWidth="403.0" wrapText="true" />
       <Line endX="120.0" endY="500.0" layoutX="106.0" startX="120.0" startY="372.0" stroke="#00000028" />

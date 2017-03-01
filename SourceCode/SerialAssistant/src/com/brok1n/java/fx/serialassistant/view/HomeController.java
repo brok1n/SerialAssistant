@@ -13,7 +13,6 @@ import javafx.stage.FileChooser;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileLock;
-import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -107,6 +106,34 @@ public class HomeController implements SerialPortEventListener {
     //停止接收显示复选框
     @FXML
     private CheckBox stopShowReceivedDataCbox;
+
+    //发送数据的TextArea
+    @FXML
+    private TextArea sendTextArea;
+
+    //发送文件复选框
+    @FXML
+    private CheckBox sendFileCbox;
+
+    //自动发送附加位
+    @FXML
+    private CheckBox autoSendAdditionalBitCbox;
+
+    //发送完成自动清空
+    @FXML
+    private CheckBox snedCompleteAutoClearCbox;
+
+    //按16进制发送复选框
+    @FXML
+    private CheckBox sendHexCbox;
+
+    //数据流循环发送复选框
+    @FXML
+    private CheckBox dataStreamCyclicTransmissionCbox;
+
+    //循环发送时间间隔
+    @FXML
+    private TextField intervalTimeTextField;
 
     //接收数据存储到的文件
     private File receivedToFile;
@@ -653,21 +680,107 @@ public class HomeController implements SerialPortEventListener {
 
     }
 
+    /**
+     * 发送按钮被点击
+     * */
+    @FXML
+    public void onSendBtnClicked()
+    {
+        if( sendTextArea != null && currentSerialOutputStream != null )
+        {
+            String data = sendTextArea.getText();
+            try {
+                currentSerialOutputStream.write( data.getBytes() );
+                currentSerialOutputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * 载入文件按钮被点击
+     * */
+    @FXML
+    public void onLoadFileBtnClicked()
+    {
+
+    }
+
+    /**
+     * 清空发送区按钮被点击
+     * */
+    @FXML
+    public void onClearSendAreaBtnClicked()
+    {
+        if( sendTextArea != null )
+        {
+            sendTextArea.setText("");
+        }
+    }
+
+    /**
+     * 发送文件复选框被点击
+     * */
+    @FXML
+    public void onSendFileCboxClicked()
+    {
+
+    }
+
+    /**
+     * 自动发送附加位复选框被点击
+     * */
+    @FXML
+    public void onAutoSendAdditonalBitCboxClicked()
+    {
+
+    }
+
+    /**
+     * 发送完成自动清除复选框被点击
+     * */
+    @FXML
+    public void onSendCompleteAutoClearCboxClicked()
+    {
+
+    }
+
+    /**
+     * 按十六进制发送复选框被点击
+     * */
+    @FXML
+    public void onSendHexCboxClicked()
+    {
+
+    }
+
+    /**
+     * 数据流循环发送复选框被点击
+     * */
+    @FXML
+    public void onDataStreamCyclicTransmissionCboxClicked()
+    {
+
+    }
+
     @Override
     public void serialEvent(SerialPortEvent event) {
 
         switch (event.getEventType()) {
-            case SerialPortEvent.BI:
-            case SerialPortEvent.OE:
-            case SerialPortEvent.FE:
-            case SerialPortEvent.PE:
-            case SerialPortEvent.CD:
-            case SerialPortEvent.CTS:
-            case SerialPortEvent.DSR:
-            case SerialPortEvent.RI:
-            case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
+            case SerialPortEvent.BI: // 10 通讯中断
                 break;
-            case SerialPortEvent.DATA_AVAILABLE://获取到串口返回信息
+            case SerialPortEvent.OE: // 7 溢位（溢出）错误
+            case SerialPortEvent.FE: // 9 帧错误
+            case SerialPortEvent.PE: // 8 奇偶校验错误
+            case SerialPortEvent.CD: // 6 载波检测
+            case SerialPortEvent.CTS: // 3 清除待发送数据
+            case SerialPortEvent.DSR: // 4 待发送数据准备好了
+            case SerialPortEvent.RI: // 5 振铃指示
+            case SerialPortEvent.OUTPUT_BUFFER_EMPTY: // 2 输出缓冲区已清空
+                break;
+            case SerialPortEvent.DATA_AVAILABLE:// 1 串口存在可用数据
 
                 int len = receivedData();
                 receivedOutput( byteBuffer, len );

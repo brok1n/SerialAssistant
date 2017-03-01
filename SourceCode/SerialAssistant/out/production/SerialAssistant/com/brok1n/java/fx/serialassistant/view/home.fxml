@@ -53,28 +53,28 @@
       <CheckBox fx:id="showHexCbox" layoutX="7.0" layoutY="442.0" mnemonicParsing="false" text="十六进制显示" />
       <Button fx:id="saveReceivedDataBtn" layoutX="119.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#onSaveDataBtnClicked" prefHeight="50.0" prefWidth="102.0" text="保存数据" />
       <Button layoutX="119.0" layoutY="439.0" mnemonicParsing="false" onMouseClicked="#onClearTextAreaBtnClicked" prefHeight="50.0" prefWidth="102.0" text="清除显示" />
-      <TextArea layoutX="232.0" layoutY="375.0" prefHeight="59.0" prefWidth="403.0" wrapText="true" />
+      <TextArea fx:id="sendTextArea" layoutX="232.0" layoutY="375.0" prefHeight="59.0" prefWidth="403.0" wrapText="true" />
       <Line endX="120.0" endY="500.0" layoutX="106.0" startX="120.0" startY="372.0" stroke="#00000028" />
       <Line endX="600.0" layoutX="101.0" layoutY="500.0" startX="-100.0" stroke="#0000001d" />
-      <Button layoutX="635.0" layoutY="375.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="57.0" text="发送" />
-      <CheckBox layoutX="481.0" layoutY="441.0" mnemonicParsing="false" text="发送完自动清空" />
-      <CheckBox layoutX="232.0" layoutY="468.0" mnemonicParsing="false" text="按十六进制发送" />
-      <CheckBox layoutX="358.0" layoutY="441.0" mnemonicParsing="false" text="自动发送附加位" />
-      <CheckBox layoutX="232.0" layoutY="441.0" mnemonicParsing="false" text="发送文件" />
-      <CheckBox layoutX="360.0" layoutY="468.0" mnemonicParsing="false" text="数据流循环发送" />
+      <Button layoutX="635.0" layoutY="375.0" mnemonicParsing="false" onMouseClicked="#onSendBtnClicked" prefHeight="59.0" prefWidth="57.0" text="发送" />
+      <CheckBox fx:id="snedCompleteAutoClearCbox" layoutX="481.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#onSendCompleteAutoClearCboxClicked" text="发送完自动清空" />
+      <CheckBox fx:id="sendHexCbox" layoutX="232.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#onSendHexCboxClicked" text="按十六进制发送" />
+      <CheckBox fx:id="autoSendAdditionalBitCbox" layoutX="358.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#onAutoSendAdditonalBitCboxClicked" text="自动发送附加位" />
+      <CheckBox fx:id="sendFileCbox" layoutX="232.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#onSendFileCboxClicked" text="发送文件" />
+      <CheckBox fx:id="dataStreamCyclicTransmissionCbox" layoutX="360.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#onDataStreamCyclicTransmissionCboxClicked" text="数据流循环发送" />
       <Label layoutX="479.0" layoutY="470.0" text="发送间隔">
          <font>
             <Font size="12.0" />
          </font>
       </Label>
-      <TextField layoutX="527.0" layoutY="464.0" pickOnBounds="false" prefHeight="25.0" prefWidth="57.0" style="-fx-padding: 0;" text="100000" />
+      <TextField fx:id="intervalTimeTextField" layoutX="527.0" layoutY="464.0" pickOnBounds="false" prefHeight="25.0" prefWidth="57.0" style="-fx-padding: 0;" text="100000" />
       <Label layoutX="583.0" layoutY="468.0" text="毫秒">
          <font>
             <Font size="12.0" />
          </font>
       </Label>
-      <Button layoutX="610.0" layoutY="435.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="83.0" text="载入文件" />
-      <Button layoutX="610.0" layoutY="464.0" mnemonicParsing="false" text="清空发送区" />
+      <Button layoutX="610.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#onLoadFileBtnClicked" prefHeight="28.0" prefWidth="83.0" text="载入文件" />
+      <Button layoutX="610.0" layoutY="464.0" mnemonicParsing="false" onMouseClicked="#onClearSendAreaBtnClicked" text="清空发送区" />
       <Label fx:id="refreshSerialListLabel" layoutX="123.0" layoutY="8.0" onMouseClicked="#onRefreshLabelClicked" text="刷新" textFill="#1d50e8" underline="true" />
    </children>
 </Pane>

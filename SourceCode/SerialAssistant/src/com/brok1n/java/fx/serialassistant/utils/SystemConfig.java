@@ -45,8 +45,6 @@ public class SystemConfig {
         //获取系统的java.library.path的所有路径
         String libpath = System.getProperty("java.library.path");
 
-        System.out.println( "java.library.path:" + libpath );
-
         String[] lp = null;
         //验证并根据系统路径分隔符分割出每个可用的路径
         if( libpath != null )
@@ -135,7 +133,6 @@ public class SystemConfig {
         }catch (Exception e)
         {}
 
-        System.out.println( info );
     }
 
 

@@ -132,28 +132,38 @@ public class Butils {
         for (int i = 0; i < strPart.length(); i++) {
             int ch = (int) strPart.charAt(i);
             String strHex = Integer.toHexString(ch);
-            hexString.append(strHex.toUpperCase() + " ");
+            hexString.append(strHex.toUpperCase());
         }
         return hexString.toString();
     }
 
     /**
-     * @Title:hexString2String
-     * @Description:16进制字符串转字符串
-     * @param src
-     *            16进制字符串
-     * @return 字节数组
-     * @throws
+     * 16进制字符串转换为字符串
+     *
+     * @param s
+     * @return
      */
-    public static String hexString2String(String src) {
-        src = src.replace(" ", "");
-        String temp = "";
-        for (int i = 0; i < src.length() / 2; i++) {
-            temp = temp
-                    + (char) Integer.valueOf(src.substring(i * 2, i * 2 + 2),
-                    16).byteValue();
+    public static String hexStringToString(String s) {
+        if (s == null || s.equals("")) {
+            return null;
         }
-        return temp;
+        s = s.replace(" ", "");
+        byte[] baKeyword = new byte[s.length() / 2];
+        for (int i = 0; i < baKeyword.length; i++) {
+            try {
+                baKeyword[i] = (byte) (0xff & Integer.parseInt(
+                        s.substring(i * 2, i * 2 + 2), 16));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            s = new String(baKeyword);
+            new String();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return s;
     }
 
     /**

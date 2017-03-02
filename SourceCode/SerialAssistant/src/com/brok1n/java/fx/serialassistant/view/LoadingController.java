@@ -82,7 +82,6 @@ public class LoadingController {
      * */
     public void setStatusText( final String msg )
     {
-        System.out.println( msg );
         Platform.runLater(new Runnable() {
             @Override public void run() {
                 loadingStatusLabel.setText(msg);

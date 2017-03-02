@@ -27,6 +27,7 @@ public class AppDelegate extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         static_stage = primaryStage;
+        static_stage.setResizable(false);
 
         initView();
 
@@ -48,7 +49,7 @@ public class AppDelegate extends Application {
     {
         //static_stage.initStyle(StageStyle.TRANSPARENT);//隐藏默认标题栏
         static_stage.setScene(m_scene);
-        static_stage.setTitle("串口助手 by brok1n V1.0.0");
+        static_stage.setTitle("亮金跨平台串口助手V1.0.0 by brok1n");
         static_stage.show();
     }
 
@@ -62,10 +63,10 @@ public class AppDelegate extends Application {
             HomeController homeController = (HomeController)loader.getController();
             homeController.init( );
 
-            m_scene = new Scene(root, 700, 600);
+            m_scene = new Scene(root, 700, 532);
 
             static_stage.hide();
-            static_stage.setTitle("串口助手 by brok1n V1.0.0");
+            static_stage.setTitle("亮金跨平台串口助手V1.0.0 by brok1n");
             static_stage.setScene(m_scene);
             static_stage.show();
 

@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SerialAssistant.jar" size="422833" download="eager" />
+    <jar href="SerialAssistant.jar" size="426392" download="eager" />
   </resources>
 <security>
   <all-permissions/>

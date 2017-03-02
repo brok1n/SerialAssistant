@@ -16,24 +16,47 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 
-<Pane fx:id="homeLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" styleClass="bg" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brok1n.java.fx.serialassistant.view.HomeController">
+<Pane fx:id="homeLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="700.0" styleClass="bg" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brok1n.java.fx.serialassistant.view.HomeController">
    <children>
-      <ComboBox fx:id="serialComboBox" layoutX="7.0" layoutY="27.0" prefHeight="27.0" prefWidth="150.0" promptText="请选择串口" />
-      <Label layoutX="7.0" layoutY="10.0" text="串口:" />
-      <Label layoutX="7.0" layoutY="62.0" text="波特率:" />
-      <ComboBox fx:id="baudRateComboBox" layoutX="7.0" layoutY="79.0" prefHeight="27.0" prefWidth="150.0" promptText="清选择波特率" />
-      <CheckBox fx:id="customBaudRateCheckbox" layoutX="7.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#onCustomBaudRateCboxClicked" text="自定义波特率" />
-      <TextField fx:id="customBaudRateTextField" layoutX="7.0" layoutY="137.0" prefHeight="27.0" prefWidth="150.0" />
-      <TextArea fx:id="dataTextArea" layoutX="164.0" layoutY="10.0" prefHeight="354.0" prefWidth="528.0" wrapText="true" />
-      <Label layoutX="7.0" layoutY="170.0" text="数据位:" />
-      <ComboBox fx:id="dataBitComboBox" layoutX="7.0" layoutY="187.0" prefWidth="150.0" />
-      <ComboBox fx:id="checkBitComboBox" layoutX="7.0" layoutY="237.0" prefWidth="150.0" />
-      <Label layoutX="7.0" layoutY="220.0" text="校验位:" />
-      <Label layoutX="7.0" layoutY="270.0" text="停止位:" />
-      <ComboBox fx:id="stopBitComboBox" layoutX="7.0" layoutY="287.0" prefWidth="150.0" />
-      <Pane layoutY="573.0" prefHeight="27.0" prefWidth="700.0" styleClass="statusLabel">
+      <ComboBox fx:id="serialComboBox" layoutX="6.0" layoutY="26.0" prefHeight="27.0" prefWidth="150.0" promptText="请选择串口" />
+      <Label layoutX="6.0" layoutY="9.0" text="串口:" />
+      <Label layoutX="6.0" layoutY="58.0" text="波特率:" />
+      <ComboBox fx:id="baudRateComboBox" layoutX="6.0" layoutY="73.0" prefHeight="27.0" prefWidth="150.0" promptText="清选择波特率" />
+      <CheckBox fx:id="customBaudRateCheckbox" layoutX="6.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#onCustomBaudRateCboxClicked" text="自定义波特率" />
+      <TextField fx:id="customBaudRateTextField" layoutX="6.0" layoutY="126.0" prefHeight="27.0" prefWidth="150.0" />
+      <TextArea fx:id="dataTextArea" layoutX="163.0" layoutY="9.0" prefHeight="328.0" prefWidth="533.0" wrapText="true" />
+      <Label layoutX="6.0" layoutY="156.0" text="数据位:" />
+      <ComboBox fx:id="dataBitComboBox" layoutX="6.0" layoutY="172.0" prefWidth="150.0" />
+      <ComboBox fx:id="checkBitComboBox" layoutX="6.0" layoutY="218.0" prefWidth="150.0" />
+      <Label layoutX="6.0" layoutY="203.0" text="校验位:" />
+      <Label layoutX="6.0" layoutY="249.0" text="停止位:" />
+      <ComboBox fx:id="stopBitComboBox" layoutX="6.0" layoutY="264.0" prefWidth="150.0" />
+      <Button fx:id="openCloseBtn" layoutX="45.0" layoutY="296.0" mnemonicParsing="false" onMouseClicked="#onOpenCloseBtnClicked" prefHeight="39.0" prefWidth="110.0" text="打开串口" />
+      <Circle fx:id="statusLed" fill="#ff212100" layoutX="22.0" layoutY="316.0" radius="14.0" stroke="#ff000000" strokeType="INSIDE" style="-fx-fill: #FF0000;" />
+      <Line endX="600.0" layoutX="100.0" layoutY="340.0" startX="-100.0" stroke="#0000001d" />
+      <CheckBox fx:id="receivedToFileCbox" layoutX="6.0" layoutY="348.0" mnemonicParsing="false" onMouseClicked="#onReceivedToFileCboxClicked" text="接收转向文件" />
+      <CheckBox fx:id="showReceivedCbox" layoutX="6.0" layoutY="382.0" mnemonicParsing="false" text="显示接收时间" />
+      <CheckBox fx:id="stopShowReceivedDataCbox" layoutX="6.0" layoutY="450.0" mnemonicParsing="false" text="暂停接收显示" />
+      <CheckBox fx:id="showHexCbox" layoutX="6.0" layoutY="418.0" mnemonicParsing="false" text="十六进制显示" />
+      <Button fx:id="saveReceivedDataBtn" layoutX="118.0" layoutY="347.0" mnemonicParsing="false" onMouseClicked="#onSaveDataBtnClicked" prefHeight="59.0" prefWidth="76.0" text="保存数据" />
+      <Button layoutX="118.0" layoutY="413.0" mnemonicParsing="false" onMouseClicked="#onClearTextAreaBtnClicked" prefHeight="59.0" prefWidth="76.0" text="清除显示" />
+      <TextArea fx:id="sendTextArea" layoutX="205.0" layoutY="343.0" prefHeight="75.0" prefWidth="399.0" text="亮金跨平台串口助手V1.0.0 by brok1n" wrapText="true" />
+      <Line endX="120.0" endY="513.0" layoutX="81.0" layoutY="-32.0" startX="120.0" startY="372.0" stroke="#00000028" />
+      <Line endX="600.0" layoutX="100.0" layoutY="483.0" startX="-100.0" stroke="#0000001d" />
+      <Button fx:id="sendBtn" layoutX="608.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#onSendBtnClicked" prefHeight="75.0" prefWidth="89.0" text="发送" />
+      <CheckBox fx:id="sendCompleteAutoClearCbox" layoutX="342.0" layoutY="428.0" mnemonicParsing="false" text="发送完自动清空" />
+      <CheckBox fx:id="showHexSendDataCbox" layoutX="206.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#showHexSendDataCboxClicked" text="以十六进制显示待发送的数据" />
+      <CheckBox fx:id="sendFileCbox" layoutX="206.0" layoutY="428.0" mnemonicParsing="false" onMouseClicked="#onSendFileCboxClicked" text="启用文件数据源" />
+      <CheckBox fx:id="dataStreamCyclicTransmissionCbox" layoutX="479.0" layoutY="427.0" mnemonicParsing="false" text="数据流循环发送" />
+      <Label layoutX="453.0" layoutY="457.0" text="发送间隔" />
+      <TextField fx:id="intervalTimeTextField" layoutX="511.0" layoutY="452.0" pickOnBounds="false" prefHeight="25.0" prefWidth="57.0" style="-fx-padding: 0;" text="1000" />
+      <Label layoutX="578.0" layoutY="457.0" text="毫秒" />
+      <Button layoutX="609.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#onLoadFileBtnClicked" prefHeight="28.0" prefWidth="89.0" text="载入文件" />
+      <Button layoutX="608.0" layoutY="454.0" mnemonicParsing="false" onMouseClicked="#onClearSendAreaBtnClicked" prefHeight="27.0" prefWidth="89.0" text="清空发送区" />
+      <Label fx:id="refreshSerialListLabel" layoutX="122.0" layoutY="7.0" onMouseClicked="#onRefreshLabelClicked" text="刷新" textFill="#1d50e8" underline="true" />
+      <Pane layoutY="506.0" prefHeight="27.0" prefWidth="700.0" styleClass="statusLabel">
          <children>
-            <Label layoutX="5.0" layoutY="5.0" prefHeight="17.0" prefWidth="92.0" text="QQ:52700765" />
+            <Label layoutX="2.0" layoutY="6.0" prefHeight="17.0" prefWidth="96.0" text="QQ:452700765" />
             <Line endX="100.0" endY="27.0" startX="100.0" stroke="#a4a1a1" />
             <Line endX="400.0" endY="27.0" startX="400.0" stroke="#a4a1a1" />
             <Label fx:id="statusLabel" alignment="CENTER" layoutX="102.0" layoutY="5.0" prefHeight="17.0" prefWidth="295.0" />
@@ -41,40 +64,9 @@
             <Label fx:id="statusSendLabel" layoutX="401.0" layoutY="5.0" prefHeight="17.0" prefWidth="115.0" text="发送:0" />
             <Label fx:id="statusReceivedLabel" layoutX="516.0" layoutY="5.0" prefHeight="17.0" prefWidth="115.0" text="接收:0" />
             <Line endX="120.0" endY="27.0" layoutX="511.0" startX="120.0" stroke="#a4a1a1" />
-            <Button layoutX="631.0" mnemonicParsing="false" onMouseClicked="#onClearRSCountBtnClicked" prefHeight="25.0" prefWidth="69.0" style="-fx-padding: 0;" text="清空计数" />
+            <Button layoutX="631.0" mnemonicParsing="false" onMouseClicked="#onClearRSCountBtnClicked" prefHeight="27.0" prefWidth="69.0" style="-fx-padding: 0;" text="清空计数" />
          </children>
       </Pane>
-      <Button fx:id="openCloseBtn" layoutX="46.0" layoutY="321.0" mnemonicParsing="false" onMouseClicked="#onOpenCloseBtnClicked" prefHeight="44.0" prefWidth="110.0" text="打开串口" />
-      <Circle fx:id="statusLed" fill="#ff212100" layoutX="23.0" layoutY="343.0" radius="14.0" stroke="#ff000000" strokeType="INSIDE" style="-fx-fill: #FF0000;" />
-      <Line endX="600.0" layoutX="101.0" layoutY="371.0" startX="-100.0" stroke="#0000001d" />
-      <CheckBox fx:id="receivedToFileCbox" layoutX="7.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#onReceivedToFileCboxClicked" text="接收转向文件" />
-      <CheckBox fx:id="showReceivedCbox" layoutX="7.0" layoutY="412.0" mnemonicParsing="false" text="显示接收时间" />
-      <CheckBox fx:id="stopShowReceivedDataCbox" layoutX="7.0" layoutY="472.0" mnemonicParsing="false" text="暂停接收显示" />
-      <CheckBox fx:id="showHexCbox" layoutX="7.0" layoutY="442.0" mnemonicParsing="false" text="十六进制显示" />
-      <Button fx:id="saveReceivedDataBtn" layoutX="119.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#onSaveDataBtnClicked" prefHeight="50.0" prefWidth="102.0" text="保存数据" />
-      <Button layoutX="119.0" layoutY="439.0" mnemonicParsing="false" onMouseClicked="#onClearTextAreaBtnClicked" prefHeight="50.0" prefWidth="102.0" text="清除显示" />
-      <TextArea fx:id="sendTextArea" layoutX="232.0" layoutY="375.0" prefHeight="59.0" prefWidth="403.0" wrapText="true" />
-      <Line endX="120.0" endY="500.0" layoutX="106.0" startX="120.0" startY="372.0" stroke="#00000028" />
-      <Line endX="600.0" layoutX="101.0" layoutY="500.0" startX="-100.0" stroke="#0000001d" />
-      <Button layoutX="635.0" layoutY="375.0" mnemonicParsing="false" onMouseClicked="#onSendBtnClicked" prefHeight="59.0" prefWidth="57.0" text="发送" />
-      <CheckBox fx:id="snedCompleteAutoClearCbox" layoutX="481.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#onSendCompleteAutoClearCboxClicked" text="发送完自动清空" />
-      <CheckBox fx:id="sendHexCbox" layoutX="232.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#onSendHexCboxClicked" text="按十六进制发送" />
-      <CheckBox fx:id="autoSendAdditionalBitCbox" layoutX="358.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#onAutoSendAdditonalBitCboxClicked" text="自动发送附加位" />
-      <CheckBox fx:id="sendFileCbox" layoutX="232.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#onSendFileCboxClicked" text="发送文件" />
-      <CheckBox fx:id="dataStreamCyclicTransmissionCbox" layoutX="360.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#onDataStreamCyclicTransmissionCboxClicked" text="数据流循环发送" />
-      <Label layoutX="479.0" layoutY="470.0" text="发送间隔">
-         <font>
-            <Font size="12.0" />
-         </font>
-      </Label>
-      <TextField fx:id="intervalTimeTextField" layoutX="527.0" layoutY="464.0" pickOnBounds="false" prefHeight="25.0" prefWidth="57.0" style="-fx-padding: 0;" text="100000" />
-      <Label layoutX="583.0" layoutY="468.0" text="毫秒">
-         <font>
-            <Font size="12.0" />
-         </font>
-      </Label>
-      <Button layoutX="610.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#onLoadFileBtnClicked" prefHeight="28.0" prefWidth="83.0" text="载入文件" />
-      <Button layoutX="610.0" layoutY="464.0" mnemonicParsing="false" onMouseClicked="#onClearSendAreaBtnClicked" text="清空发送区" />
-      <Label fx:id="refreshSerialListLabel" layoutX="123.0" layoutY="8.0" onMouseClicked="#onRefreshLabelClicked" text="刷新" textFill="#1d50e8" underline="true" />
+      <Label alignment="CENTER" layoutY="486.0" prefHeight="17.0" prefWidth="700.0" text="载入待发送区的文件数据不可修改，如需恢复成可修改状态 请点击 清空发送区 按钮。" textFill="#ff0202" />
    </children>
 </Pane>

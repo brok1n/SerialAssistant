@@ -45,12 +45,19 @@ public class LoadingController {
             osVersionLabel.setText(SystemConfig.getOsVersion());
             osArchLabel.setText(SystemConfig.getOsArch());
 
-            setStatusText("开始复制所需库文件...");
 
-            setStatusText("开始复制:" + SystemConfig.getSerialFilePath() );
+            boolean status = false;
 
-            boolean status = Butils.copyInputStreamToFile( getClass().getResourceAsStream( SystemConfig.getSerialFilePath()), new File(SystemConfig.getSerialFileTargetPath()) );
-            setStatusText( ( status ? "复制成功!:" : "复制失败:" ) + SystemConfig.getSerialFilePath() );
+            File dllFile = new File(SystemConfig.getSerialFileTargetPath());
+            if (dllFile.exists()) {
+                status = true;
+            } else {
+                setStatusText("开始复制所需库文件...");
+                setStatusText("开始复制:" + SystemConfig.getSerialFilePath() );
+                status = Butils.copyInputStreamToFile( getClass().getResourceAsStream( SystemConfig.getSerialFilePath()), new File(SystemConfig.getSerialFileTargetPath()) );
+                setStatusText( ( status ? "复制成功!:" : "复制失败:" ) + SystemConfig.getSerialFilePath() );
+            }
+
             if( status )
             {
                 setStatusText("初始化成功！请稍后...");
